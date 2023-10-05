@@ -9,23 +9,7 @@ import { HistoryService } from '../calculator/services/history.service';
 })
 export class HistoryComponent implements OnInit{
 
-  pastCalculations: CalculationHistory[] = [
-    {
-      operation: "Addition",
-      expression: "2+2",
-      result: 4
-    },
-    {
-      operation: "Subtraction",
-      expression: "5-5-5",
-      result: -5
-    },
-    {
-      operation: "Addition",
-      expression: "10+10+10+10+10+10",
-      result: 60
-    }
-  ];
+  pastCalculations: CalculationHistory[] = [];
   errorMsg = '';
 
   constructor(private historyService: HistoryService) {
