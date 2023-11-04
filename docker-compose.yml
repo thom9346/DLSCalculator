@@ -1,5 +1,9 @@
 version: "3.9"
 
+networks:
+  app-network:
+    driver: overlay
+
 services:
 
   history-db:
@@ -9,6 +13,8 @@ services:
         ACCEPT_EULA: "Y"
       ports:
         - "1433:1433"
+      networks:
+        - app-network
 
   seq:
     image: datalust/seq
@@ -36,6 +42,8 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 8180:80
+    networks:
+        - app-network
 
   minusservice2:
     build:
@@ -70,6 +78,8 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 8380:80
+    networks:
+        - app-network
 
   plusservice2:
     build:
@@ -105,6 +115,8 @@ services:
       - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4$YgJp!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8280:80
+    networks:
+        - app-network
     depends_on:
       - history-db
 
@@ -143,6 +155,8 @@ services:
     image: thohol02/calculator-angularapp:$BUILD_NUMBER
     ports:
       - 4200:4200
+    networks:
+        - app-network
 
   angular-app2:
     build:
