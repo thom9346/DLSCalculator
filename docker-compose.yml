@@ -29,6 +29,7 @@ services:
     build:
       context: .
       dockerfile: MinusService/Dockerfile
+    image: thohol02/calculator-minusservice:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -62,6 +63,7 @@ services:
     build:
       context: .
       dockerfile: PlusService/Dockerfile
+    image: thohol02/calculator-plusservice:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -95,6 +97,7 @@ services:
     build:
       context: .
       dockerfile: HistoryService/Dockerfile
+    image: thohol02/calculator-historyservice:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -137,6 +140,7 @@ services:
     build:
       context: ./CalculatorFrontend
       dockerfile: ./Dockerfile
+    image: thohol02/calculator-angularapp:$BUILD_NUMBER
     ports:
       - 4200:4200
 
@@ -158,6 +162,7 @@ services:
     build:
       context: ./CalculatorFrontend
       dockerfile: Dockerfile.nginx
+    image: thohol02/calculator-nginx:$BUILD_NUMBER
     ports:
       - 8081:8081
       - 8084:8084

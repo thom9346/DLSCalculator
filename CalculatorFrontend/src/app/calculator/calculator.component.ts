@@ -57,12 +57,6 @@ calculate() {
 if (!this.display.includes('+') && !this.display.includes('-')) {
   return;
 }
-  const tracer = trace.getTracer('angular-frontend');
-  const span = tracer.startSpan('calculate', {
-    attributes: {
-      'service.name': 'angular-frontend'
-    }
-  });
 
   this.httpError = false;
   this.httpHistoryMsgSuccess = '';
@@ -112,7 +106,6 @@ if (!this.display.includes('+') && !this.display.includes('-')) {
       }
     });
   }
-  span.end();
 }
 
 handleServiceError(error: any, numbers: number[], service: 'Plus' | 'Minus', operationType: 'Add' | 'Subtract') {
