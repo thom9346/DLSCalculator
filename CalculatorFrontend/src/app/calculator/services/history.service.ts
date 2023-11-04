@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class HistoryService {
 
-  private apiUrl = 'http://localhost:8081/History';
+  private apiUrl = 'http://nginx-proxy:8081/History';
   constructor(private http: HttpClient) { }
 
   postHistory(calculationHistory: CalculationHistory) {
