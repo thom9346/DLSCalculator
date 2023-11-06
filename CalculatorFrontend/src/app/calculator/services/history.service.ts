@@ -14,7 +14,7 @@ export class HistoryService {
   constructor(private http: HttpClient) { }
 
   postHistory(calculationHistory: CalculationHistory) {
-    return this.http.post<number>(`http://history_backend/History`, calculationHistory);
+    return this.http.post<number>(`http://historyservice1/History`, calculationHistory);
   }
   getHistory(): Observable<CalculationHistory[]> {
     return this.http.get<CalculationHistory[]>(this.apiUrl);

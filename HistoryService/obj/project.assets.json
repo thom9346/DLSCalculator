@@ -1450,6 +1450,16 @@
         "runtime": {
           "bin/placeholder/Monitoring.dll": {}
         }
+      },
+      "SharedModels/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/SharedModels.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SharedModels.dll": {}
+        }
       }
     }
   },
@@ -4019,6 +4029,11 @@
       "type": "project",
       "path": "../Monitoring/Monitoring.csproj",
       "msbuildProject": "../Monitoring/Monitoring.csproj"
+    },
+    "SharedModels/1.0.0": {
+      "type": "project",
+      "path": "../SharedModels/SharedModels.csproj",
+      "msbuildProject": "../SharedModels/SharedModels.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -4031,6 +4046,7 @@
       "Monitoring >= 1.0.0",
       "Newtonsoft.Json >= 13.0.3",
       "OpenTelemetry.Api >= 1.6.0",
+      "SharedModels >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },

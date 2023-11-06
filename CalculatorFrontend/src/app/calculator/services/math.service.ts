@@ -14,10 +14,10 @@ export class MathService {
   add(numbers: number[]): Observable<number> {  
     console.log("This will be false in development, and true in production")
     console.log(environment.production);
-    return this.http.post<number>(`http://plus_backend/Plus`, numbers);
+    return this.http.post<number>(`http://plusservice1/Minus`, numbers);
 }
 
   subtract(numbers: number[]): Observable<number> {
-    return this.http.post<number>(`http://minus_backend/Minus`, numbers);
+    return this.http.post<number>(`http://minusservice1/Minus`, numbers);
   }
 }
