@@ -32,12 +32,15 @@ services:
     networks:
       - calculator-network
 
-  minusservice1:
+  minusservice:
     build:
       context: .
       dockerfile: MinusService/Dockerfile
-    image: thohol02/calculator-minusservice1:$BUILD_NUMBER
-    restart: on-failure
+    image: thohol02/calculator-minusservice:$BUILD_NUMBER
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -46,43 +49,16 @@ services:
       - 8180:80
     networks:
       - calculator-network
-
-  minusservice2:
-    build:
-      context: .
-      dockerfile: MinusService/Dockerfile
-    image: thohol02/calculator-minusservice2:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8181:80
-    networks:
-      - calculator-network
-
-  minusservice3:
-    build:
-      context: .
-      dockerfile: MinusService/Dockerfile
-    image: thohol02/calculator-minusservice3:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8182:80
-    networks:
-      - calculator-network
     
-  plusservice1:
+  plusservice:
     build:
       context: .
       dockerfile: PlusService/Dockerfile
-    image: thohol02/calculator-plusservice1:$BUILD_NUMBER
-    restart: on-failure
+    image: thohol02/calculator-plusservice:$BUILD_NUMBER
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -92,114 +68,37 @@ services:
     networks:
       - calculator-network
 
-  plusservice2:
-    build:
-      context: .
-      dockerfile: PlusService/Dockerfile
-    image: thohol02/calculator-plusservice2:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8381:80
-    networks:
-      - calculator-network
-
-  plusservice3:
-    build:
-      context: .
-      dockerfile: PlusService/Dockerfile
-    image: thohol02/calculator-plusservice3:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8382:80
-    networks:
-      - calculator-network
-
-  historyservice1:
+  historyservice:
     build:
       context: .
       dockerfile: HistoryService/Dockerfile
-    image: thohol02/calculator-historyservice1:$BUILD_NUMBER
-    restart: on-failure
+    image: thohol02/calculator-historyservice:$BUILD_NUMBER
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
+    ports: 
       - 8280:80
     networks:
       - calculator-network
     depends_on:
       - history-db
 
-  historyservice2:
-    build:
-      context: .
-      dockerfile: HistoryService/Dockerfile
-    image: thohol02/calculator-historyservice2:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8281:80
-    networks:
-      - calculator-network
-    depends_on:
-      - history-db
-
-  historyservice3:
-    build:
-      context: .
-      dockerfile: HistoryService/Dockerfile
-    image: thohol02/calculator-historyservice3:$BUILD_NUMBER
-    restart: on-failure
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
-    ports:
-      - 8282:80
-    networks:
-      - calculator-network
-    depends_on:
-      - history-db
-
-  angular-app1:
+  angular-app:
     build:
       context: ./CalculatorFrontend
       dockerfile: ./Dockerfile
-    image: thohol02/calculator-angularapp1:$BUILD_NUMBER
+    image: thohol02/calculator-angularapp:$BUILD_NUMBER
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     ports:
       - 4200:4200
-    networks:
-      - calculator-network
-
-  angular-app2:
-    build:
-      context: ./CalculatorFrontend
-      dockerfile: ./Dockerfile
-    image: thohol02/calculator-angularapp2:$BUILD_NUMBER
-    ports:
-      - 4201:4200
-    networks:
-      - calculator-network
-
-  angular-app3:
-    build:
-      context: ./CalculatorFrontend
-      dockerfile: ./Dockerfile
-    image: thohol02/calculator-angularapp3:$BUILD_NUMBER
-    ports:
-      - 4202:4200
     networks:
       - calculator-network
 
