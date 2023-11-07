@@ -113,9 +113,7 @@ services:
     networks:
       - calculator-network
     depends_on:
-      - angular-app1
-      - angular-app2
-      - angular-app3
+      - angular-app
 
 volumes:
   rps_seq_data:
