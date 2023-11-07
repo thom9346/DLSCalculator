@@ -1,16 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { CalculationHistory } from './models/CalculationHistory';
 import { MathService } from './services/math.service';
 import { HistoryService } from './services/history.service';
 import { HistoryComponent } from '../history/history.component';
+import { FeaturehubService } from './services/featurehub.service';
 
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.scss']
 })
-export class CalculatorComponent {
+export class CalculatorComponent implements OnInit {
   display = '';
   isLoading = false;
   httpError = false;
@@ -18,14 +19,30 @@ export class CalculatorComponent {
   httpHistoryMsgSuccess = '';
   httpHistoryMsgError = '';
 
+  multiplicationEnabled: boolean = false;
+
+
   @ViewChild(HistoryComponent) historyComponentRef!: HistoryComponent;
 
   onCalculationMade() {
     this.historyComponentRef.refreshHistory();
   }
-  constructor(private mathService: MathService, private historyService: HistoryService) {
-
+  
+  constructor(
+    private mathService: MathService, 
+    private historyService: HistoryService,
+    private featureHubService: FeaturehubService) {
   }
+
+  async initFeatureFlags() {
+    this.multiplicationEnabled = await this.featureHubService.getFeatureFlag('multiply');
+  }
+
+  ngOnInit(): void {
+    this.initFeatureFlags();
+    console.log(this.featureHubService.getFeatureFlag('multiply'));
+  }
+ 
 
   appendToDisplay(value: string): void {
     if ((this.display.includes('+') && value === '-') || (this.display.includes('-') && value === '+')) {
@@ -42,7 +59,7 @@ disableMinusButton(): boolean {
   return this.display.includes('+') || this.display.includes('*');
 }
 disableMultiplyButton(): boolean {
-  return this.display.includes('+') || this.display.includes('-');
+  return !this.multiplicationEnabled || this.display.includes('+') || this.display.includes('-');
 }
 clear(): void {
   this.display = '';
@@ -87,6 +104,10 @@ if (!this.display.includes('+') && !this.display.includes('-') && !this.display.
     });
   }
   else if (operators.includes('*')){
+    if(!this.multiplicationEnabled){
+      console.error("Multiplication feature is disabled.");
+      return;
+    }
     const numbers = this.display.split('*').map(n => parseInt(n.trim()));
 
     this.isLoading = true;
