@@ -32,6 +32,16 @@ services:
     networks:
       - calculator-network
 
+  featurehub:
+    image: featurehub/party-server:latest
+    restart: always
+    volumes:
+      - featurehub-h2-data:/db
+    ports:
+      - 8085:8085
+    networks:
+      - calculator-network
+
   minusservice:
     build:
       context: .
@@ -46,10 +56,28 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
-      - 8180:80
+      - 8980:80
     networks:
       - calculator-network
-    
+
+  multiplyservice:
+    build:
+      context: .
+      dockerfile: MultiplyService/Dockerfile
+    image: thohol02/calculator-multiplyservice:$BUILD_NUMBER
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
+    ports:
+      - 8180:80
+    networks:
+      - calculator-network 
+
   plusservice:
     build:
       context: .
@@ -117,6 +145,7 @@ services:
 
 volumes:
   rps_seq_data:
+  featurehub-h2-data:
   
 networks:
   calculator-network:
