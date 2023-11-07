@@ -36,7 +36,7 @@ services:
     build:
       context: .
       dockerfile: MinusService/Dockerfile
-    image: thohol02/calculator-minusservice:$BUILD_NUMBER
+    image: thohol02/calculator-minusservice1:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -51,6 +51,7 @@ services:
     build:
       context: .
       dockerfile: MinusService/Dockerfile
+    image: thohol02/calculator-minusservice2:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -65,6 +66,7 @@ services:
     build:
       context: .
       dockerfile: MinusService/Dockerfile
+    image: thohol02/calculator-minusservice3:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -79,7 +81,7 @@ services:
     build:
       context: .
       dockerfile: PlusService/Dockerfile
-    image: thohol02/calculator-plusservice:$BUILD_NUMBER
+    image: thohol02/calculator-plusservice1:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -94,6 +96,7 @@ services:
     build:
       context: .
       dockerfile: PlusService/Dockerfile
+    image: thohol02/calculator-plusservice2:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -108,6 +111,7 @@ services:
     build:
       context: .
       dockerfile: PlusService/Dockerfile
+    image: thohol02/calculator-plusservice3:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -122,7 +126,7 @@ services:
     build:
       context: .
       dockerfile: HistoryService/Dockerfile
-    image: thohol02/calculator-historyservice:$BUILD_NUMBER
+    image: thohol02/calculator-historyservice1:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -139,6 +143,7 @@ services:
     build:
       context: .
       dockerfile: HistoryService/Dockerfile
+    image: thohol02/calculator-historyservice2:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -155,6 +160,7 @@ services:
     build:
       context: .
       dockerfile: HistoryService/Dockerfile
+    image: thohol02/calculator-historyservice3:$BUILD_NUMBER
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -171,7 +177,7 @@ services:
     build:
       context: ./CalculatorFrontend
       dockerfile: ./Dockerfile
-    image: thohol02/calculator-angularapp:$BUILD_NUMBER
+    image: thohol02/calculator-angularapp1:$BUILD_NUMBER
     ports:
       - 4200:4200
     networks:
@@ -181,6 +187,7 @@ services:
     build:
       context: ./CalculatorFrontend
       dockerfile: ./Dockerfile
+    image: thohol02/calculator-angularapp2:$BUILD_NUMBER
     ports:
       - 4201:4200
     networks:
@@ -190,6 +197,7 @@ services:
     build:
       context: ./CalculatorFrontend
       dockerfile: ./Dockerfile
+    image: thohol02/calculator-angularapp3:$BUILD_NUMBER
     ports:
       - 4202:4200
     networks:
