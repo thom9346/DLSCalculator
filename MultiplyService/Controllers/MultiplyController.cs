@@ -16,16 +16,16 @@ namespace MultiplyService.Controllers
     public class MultiplyController : ControllerBase
     {
         private readonly IHttpClientFactory _clientFactory;
-        private readonly IFeatureHubRepository _featureHubRepository;
-        public MultiplyController(IHttpClientFactory clientFactory, IFeatureHubRepository featureHubRepository)
+        private readonly IFeatureHubConfig _featureHub;
+        public MultiplyController(IHttpClientFactory clientFactory, IFeatureHubConfig featureHub)
         {
             _clientFactory = clientFactory;
-            _featureHubRepository = featureHubRepository;
+            _featureHub = featureHub;
         }
         [HttpPost]
         public IActionResult Multiply([FromBody] List<int> numbers)
         {
-            var multiplyFeatureEnabled = _featureHubRepository.IsEnabled("Multiplication");
+            var multiplyFeatureEnabled = _featureHub.Repository.GetFeature("Multiply").IsEnabled;
 
             if(!multiplyFeatureEnabled)
             {

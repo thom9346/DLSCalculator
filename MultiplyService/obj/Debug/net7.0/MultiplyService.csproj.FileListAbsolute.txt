@@ -46,3 +46,16 @@ C:\Users\THolm\source\repos\Calculator\MultiplyService\obj\Debug\net7.0\refint\M
 C:\Users\THolm\source\repos\Calculator\MultiplyService\obj\Debug\net7.0\MultiplyService.pdb
 C:\Users\THolm\source\repos\Calculator\MultiplyService\obj\Debug\net7.0\MultiplyService.genruntimeconfig.cache
 C:\Users\THolm\source\repos\Calculator\MultiplyService\obj\Debug\net7.0\ref\MultiplyService.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\Common.Logging.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\Common.Logging.Core.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\FeatureHubSDK.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\System.Net.IPNetwork.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\JsonSubTypes.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\LaunchDarkly.EventSource.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\MurmurHash.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\NodaTime.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\Polly.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\Polly.Extensions.Http.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\RestSharp.dll
+C:\Users\THolm\source\repos\Calculator\MultiplyService\bin\Debug\net7.0\SemVer.dll
