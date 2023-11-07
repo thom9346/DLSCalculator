@@ -10,7 +10,7 @@ export class FeaturehubService {
 
   constructor() {
     // Your FeatureHub edge server URL and environment API key
-    const edgeUrl = 'http://localhost:8081/FeatureHub';
+    const edgeUrl = 'http://localhost:8081/featurehub';
     const apiKey = 'd545eaa0-adac-4d7a-a2f2-24916863b2b0/CKT6H8XCmWmyB0kFxdaKjD4ZsxvL4mhrDAnLrqpg';
 
     // Initialize the FeatureHub configuration with the server and API key
