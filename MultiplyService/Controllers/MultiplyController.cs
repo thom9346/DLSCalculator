@@ -22,6 +22,21 @@ namespace MultiplyService.Controllers
             _clientFactory = clientFactory;
             _featureHub = featureHub;
         }
+        [HttpGet]
+        public bool IsFeatureAvailable()
+        {
+            var multiplyFeatureEnabled = _featureHub.Repository.GetFeature("Multiply").IsEnabled;
+
+            if (multiplyFeatureEnabled)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
         [HttpPost]
         public IActionResult Multiply([FromBody] List<int> numbers)
         {

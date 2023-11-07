@@ -4,7 +4,6 @@ import { CalculationHistory } from './models/CalculationHistory';
 import { MathService } from './services/math.service';
 import { HistoryService } from './services/history.service';
 import { HistoryComponent } from '../history/history.component';
-import { FeaturehubService } from './services/featurehub.service';
 
 @Component({
   selector: 'app-calculator',
@@ -30,17 +29,19 @@ export class CalculatorComponent implements OnInit {
   
   constructor(
     private mathService: MathService, 
-    private historyService: HistoryService,
-    private featureHubService: FeaturehubService) {
-  }
-
-  async initFeatureFlags() {
-    this.multiplicationEnabled = await this.featureHubService.getFeatureFlag('multiply');
+    private historyService: HistoryService) {
   }
 
   ngOnInit(): void {
-    this.initFeatureFlags();
-    console.log(this.featureHubService.getFeatureFlag('multiply'));
+    this.mathService.isMultiplyFeatureOn().subscribe(isOn => {
+      if(isOn) {
+        this.multiplicationEnabled = true
+      }
+      else {
+        this.multiplicationEnabled = false;
+      }
+    });
+    console.log(this.multiplicationEnabled);
   }
  
 
