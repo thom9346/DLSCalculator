@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MathService {
-  apiUrl = environment.apiUrl; 
+
 
   constructor(private http: HttpClient) { }
 
   add(numbers: number[]): Observable<number> {  
-    console.log("This will be false in development, and true in production")
-    console.log(environment.production);
     return this.http.post<number>('http://localhost:8081/Plus', numbers);
-}
-
+  }
   subtract(numbers: number[]): Observable<number> {
     return this.http.post<number>('http://localhost:8081/Minus', numbers);
+  }
+  multiply(numbers: number[]): Observable<number> {
+    return this.http.post<number>('http://localhost:8081/Multiply', numbers);
   }
 }

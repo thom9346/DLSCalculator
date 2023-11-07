@@ -3,9 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { CalculationHistory } from './models/CalculationHistory';
 import { MathService } from './services/math.service';
 import { HistoryService } from './services/history.service';
-import { EventEmitter, Output } from '@angular/core';
 import { HistoryComponent } from '../history/history.component';
-import { trace } from '@opentelemetry/api';
 
 @Component({
   selector: 'app-calculator',
@@ -37,13 +35,15 @@ export class CalculatorComponent {
 }
 
 disablePlusButton(): boolean {
-  return this.display.includes('-');
+  return this.display.includes('-') || this.display.includes('*');
 }
 
 disableMinusButton(): boolean {
-  return this.display.includes('+');
+  return this.display.includes('+') || this.display.includes('*');
 }
-
+disableMultiplyButton(): boolean {
+  return this.display.includes('+') || this.display.includes('-');
+}
 clear(): void {
   this.display = '';
 }
@@ -54,7 +54,7 @@ deleteLast(): void {
 
 calculate() {
 // dont run the code if there is no + or - in the input
-if (!this.display.includes('+') && !this.display.includes('-')) {
+if (!this.display.includes('+') && !this.display.includes('-') && !this.display.includes('*')) {
   return;
 }
 
@@ -85,7 +85,29 @@ if (!this.display.includes('+') && !this.display.includes('-')) {
         this.handleServiceError(error, numbers, 'Plus', 'Add');
       }
     });
-  } else {
+  }
+  else if (operators.includes('*')){
+    const numbers = this.display.split('*').map(n => parseInt(n.trim()));
+
+    this.isLoading = true;
+    this.mathService.multiply(numbers).subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.display = result.toString();
+
+        const calcHistory: CalculationHistory = {
+          operation: "Multiplication",
+          expression: numbers.join(" * "),
+          result: result
+        };
+        this.historyComponentRef.pastCalculations.push(calcHistory);
+      },
+      error: (error) => {
+        this.handleServiceError(error, numbers, 'Multiplication', 'Multiply');
+      }
+    });
+  }
+   else {
     const numbers = this.display.split('-').map(n => parseInt(n.trim()));
 
     this.isLoading = true;
@@ -108,7 +130,7 @@ if (!this.display.includes('+') && !this.display.includes('-')) {
   }
 }
 
-handleServiceError(error: any, numbers: number[], service: 'Plus' | 'Minus', operationType: 'Add' | 'Subtract') {
+handleServiceError(error: any, numbers: number[], service: 'Plus' | 'Minus' | 'Multiplication', operationType: 'Add' | 'Subtract' | 'Multiply') {
   this.isLoading = false;
   this.httpError = true;
   this.httpErrorMsg = `Could not get a response from ${service}service. You got a response from the client-side instead.`;
@@ -116,13 +138,30 @@ handleServiceError(error: any, numbers: number[], service: 'Plus' | 'Minus', ope
   this.attemptCallToHistoryService(numbers, operationType);
 }
 
-attemptCallToHistoryService(numbers: number[], operationType: 'Add' | 'Subtract'): void {
+attemptCallToHistoryService(numbers: number[], operationType: 'Add' | 'Subtract' | 'Multiply'): void {
   try {
     const result = eval(this.display);
     this.display = result.toString();
 
-    const operationName = operationType === 'Add' ? "Addition" : "Subtraction";
-    const operatorSymbol = operationType === 'Add' ? " + " : " - ";
+    let operationName, operatorSymbol;
+    
+    switch (operationType) {
+      case 'Add':
+        operationName = "Addition";
+        operatorSymbol = " + ";
+        break;
+      case 'Subtract':
+        operationName = "Subtraction";
+        operatorSymbol = " - ";
+        break;
+      case 'Multiply':
+        operationName = "Multiplication";
+        operatorSymbol = " * ";
+        break;
+      default:
+        throw new Error('Invalid operation type');
+    }
+
     const calcHistory : CalculationHistory = {
       operation: operationName,
       expression: numbers.join(operatorSymbol),
@@ -145,7 +184,7 @@ attemptCallToHistoryService(numbers: number[], operationType: 'Add' | 'Subtract'
   }
 }
 restrictInput(event: any): boolean {
-  const allowedChars = '0123456789+-';
+  const allowedChars = '0123456789+-*';
   if (allowedChars.indexOf(event.key) !== -1) {
       if ((this.display.includes('+') && event.key === '-') || (this.display.includes('-') && event.key === '+')) {
           event.preventDefault();
