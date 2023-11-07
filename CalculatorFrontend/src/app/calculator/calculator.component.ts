@@ -105,27 +105,34 @@ if (!this.display.includes('+') && !this.display.includes('-') && !this.display.
     });
   }
   else if (operators.includes('*')){
-    if(!this.multiplicationEnabled){
-      console.error("Multiplication feature is disabled.");
-      return;
-    }
-    const numbers = this.display.split('*').map(n => parseInt(n.trim()));
+    console.log("new deployment!")
+    this.mathService.isMultiplyFeatureOn().subscribe(isOn => {
+      if(isOn) {
+        this.multiplicationEnabled = true
+        const numbers = this.display.split('*').map(n => parseInt(n.trim()));
 
-    this.isLoading = true;
-    this.mathService.multiply(numbers).subscribe({
-      next: (result) => {
-        this.isLoading = false;
-        this.display = result.toString();
+        this.isLoading = true;
+        this.mathService.multiply(numbers).subscribe({
+          next: (result) => {
+            this.isLoading = false;
+            this.display = result.toString();
 
-        const calcHistory: CalculationHistory = {
-          operation: "Multiplication",
-          expression: numbers.join(" * "),
-          result: result
-        };
-        this.historyComponentRef.pastCalculations.push(calcHistory);
-      },
-      error: (error) => {
-        this.handleServiceError(error, numbers, 'Multiplication', 'Multiply');
+            const calcHistory: CalculationHistory = {
+              operation: "Multiplication",
+              expression: numbers.join(" * "),
+              result: result
+            };
+            this.historyComponentRef.pastCalculations.push(calcHistory);
+          },
+          error: (error) => {
+            this.handleServiceError(error, numbers, 'Multiplication', 'Multiply');
+          }
+        });
+      }
+      else {
+        this.multiplicationEnabled = false;
+        console.error("Multiplication feature is disabled.");
+        return;
       }
     });
   }
