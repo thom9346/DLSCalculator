@@ -1,26 +1,25 @@
 version: "3.9"
 
-networks:
-  app-network:
-    driver: overlay
 
 services:
 
   history-db:
       image: mcr.microsoft.com/mssql/server:2019-latest
       environment:
-        SA_PASSWORD: "8zWt4$YgJp!LmR6@kC3#eQb0"
+        SA_PASSWORD: "8zWt4!LmR6@kC3#eQb0"
         ACCEPT_EULA: "Y"
       ports:
         - "1433:1433"
       networks:
-        - app-network
+        - calculator-network
 
   seq:
     image: datalust/seq
     ports:
       - 5341:5341
       - 5342:80
+    networks:
+      - calculator-network
     volumes:
       - rps_seq_data:/data
     environment:
@@ -30,6 +29,8 @@ services:
     image: openzipkin/zipkin
     ports:
       - 9411:9411
+    networks:
+      - calculator-network
 
   minusservice1:
     build:
@@ -40,10 +41,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8180:80
     networks:
-        - app-network
+      - calculator-network
 
   minusservice2:
     build:
@@ -53,8 +55,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8181:80
+    networks:
+      - calculator-network
 
   minusservice3:
     build:
@@ -64,8 +69,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8182:80
+    networks:
+      - calculator-network
     
   plusservice1:
     build:
@@ -76,10 +84,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8380:80
     networks:
-        - app-network
+      - calculator-network
 
   plusservice2:
     build:
@@ -89,8 +98,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8381:80
+    networks:
+      - calculator-network
 
   plusservice3:
     build:
@@ -100,8 +112,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8382:80
+    networks:
+      - calculator-network
 
   historyservice1:
     build:
@@ -112,11 +127,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4$YgJp!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8280:80
     networks:
-        - app-network
+      - calculator-network
     depends_on:
       - history-db
 
@@ -128,9 +143,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4$YgJp!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8281:80
+    networks:
+      - calculator-network
     depends_on:
       - history-db
 
@@ -142,9 +159,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4$YgJp!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
+      - ConnectionStrings__DefaultConnection=Server=history-db;Database=histDbLocal;User Id=sa;Password=8zWt4!LmR6@kC3#eQb0;TrustServerCertificate=true;Connection Timeout=30;
     ports:
       - 8282:80
+    networks:
+      - calculator-network
     depends_on:
       - history-db
 
@@ -156,7 +175,7 @@ services:
     ports:
       - 4200:4200
     networks:
-        - app-network
+      - calculator-network
 
   angular-app2:
     build:
@@ -164,6 +183,8 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 4201:4200
+    networks:
+      - calculator-network
 
   angular-app3:
     build:
@@ -171,6 +192,8 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 4202:4200
+    networks:
+      - calculator-network
 
   nginx-proxy:
     build:
@@ -180,6 +203,8 @@ services:
     ports:
       - 8081:8081
       - 8084:8084
+    networks:
+      - calculator-network
     depends_on:
       - angular-app1
       - angular-app2
@@ -187,3 +212,7 @@ services:
 
 volumes:
   rps_seq_data:
+  
+networks:
+  calculator-network:
+    external: true
