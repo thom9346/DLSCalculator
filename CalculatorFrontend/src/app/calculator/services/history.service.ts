@@ -9,12 +9,11 @@ import { environment } from 'src/environments/environment';
 })
 export class HistoryService {
 
-  apiUrl = environment.apiUrl; 
-  //private apiUrl = 'http://localhost:8081/History';
+  private apiUrl = 'http://localhost:8081/History';
   constructor(private http: HttpClient) { }
 
   postHistory(calculationHistory: CalculationHistory) {
-    return this.http.post<number>('http://localhost:8081/History', calculationHistory);
+    return this.http.post<number>(this.apiUrl, calculationHistory);
   }
   getHistory(): Observable<CalculationHistory[]> {
     return this.http.get<CalculationHistory[]>(this.apiUrl);
