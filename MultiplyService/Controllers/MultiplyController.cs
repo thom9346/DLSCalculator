@@ -51,7 +51,7 @@ namespace MultiplyService.Controllers
 
             using (var activity = Monitoring.Monitoring.ActivitySource.StartActivity("POST request at the /Multiply/ endpoint"))
             {
-                Monitoring.Monitoring.Log.Debug("Entered Multiply Method In /Multiply/ endpoint");
+                Monitoring.Monitoring.Log.Debug($"Entered Multiply Method In /Multiply/ endpoint. Call from: {Environment.MachineName}");
 
                 // Start a span for the calculation
                 using (var calculationSpan = Monitoring.Monitoring.ActivitySource.StartActivity("Making the multiplication calculation", ActivityKind.Internal, activity.Context))
@@ -62,7 +62,7 @@ namespace MultiplyService.Controllers
                 }
                 var expression = string.Join(" * ", numbers);
 
-                Monitoring.Monitoring.Log.Information($"Expression :{expression} had the following result: {result}");
+                Monitoring.Monitoring.Log.Information($"Expression :{expression} had the following result: {result}. Call from: {Environment.MachineName}");
 
                 var calculationHistory = new CalculationHistory
                 {
@@ -84,7 +84,7 @@ namespace MultiplyService.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Monitoring.Monitoring.Log.Error($"Couldn't insert it into history db, cause of error: {ex}");
+                        Monitoring.Monitoring.Log.Error($"Couldn't insert it into history db, cause of error: {ex} Call from: {Environment.MachineName}");
                         activity.RecordException(ex);
                         clientSpan.SetTag("status", "Error during HTTP call to HistoryService from PlusService");
                     }
@@ -100,7 +100,7 @@ namespace MultiplyService.Controllers
             try
             {
                 var client = _clientFactory.CreateClient("HistoryClient");
-                Monitoring.Monitoring.Log.Debug("Entered Log To History Service Async In /Multiply/");
+                Monitoring.Monitoring.Log.Debug($"Entered Log To History Service Async In /Multiply/ Call from: {Environment.MachineName}");
                 var currentActivity = Activity.Current;
                 if (currentActivity != null)
                 {
@@ -117,7 +117,7 @@ namespace MultiplyService.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Couldn't insert it into history db, cause of error: {ex}");
-                Monitoring.Monitoring.Log.Error($"Couldn't insert it into history db, cause of error: {ex}");
+                Monitoring.Monitoring.Log.Error($"Couldn't insert it into history db, cause of error: {ex} Call from: {Environment.MachineName}");
             }
         }
     }

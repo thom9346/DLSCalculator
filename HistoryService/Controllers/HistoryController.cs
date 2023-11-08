@@ -43,7 +43,7 @@ namespace HistoryService.Controllers
 
             if (calculationDto == null)
             {
-                Monitoring.Monitoring.Log.Warning("calculationDto is null, returned BadRequest");
+                Monitoring.Monitoring.Log.Warning($"calculationDto is null, returned BadRequest. Call from: {Environment.MachineName}");
                 return BadRequest();
             }
       
@@ -58,7 +58,7 @@ namespace HistoryService.Controllers
         public IEnumerable<CalculationHistoryDto> Get()
         {
             var calculationHistoryDtoList = new List<CalculationHistoryDto>();
-            Monitoring.Monitoring.Log.Debug("Entered Get() Method in /History/");
+            Monitoring.Monitoring.Log.Debug($"Entered Get() Method in /History/. Call from: {Environment.MachineName}");
 
             using (var activity = Monitoring.Monitoring.ActivitySource.StartActivity("Entered Get In /History/ endpoint", ActivityKind.Internal))
             {
